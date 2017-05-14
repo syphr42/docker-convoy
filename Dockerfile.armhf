@@ -1,0 +1,16 @@
+# Based on Dockerfile shared at
+# https://github.com/rancher/os/issues/706
+
+FROM armhf/busybox
+
+COPY bin/convoy-0.5.0-armhf /usr/bin/convoy
+COPY bin/convoy-pdata_tools-0.2.1-armhf /usr/bin/convoy-pdata_tools
+
+ENV DOCKER_VOLUMES=/volumes
+
+VOLUME /var/lib/rancher/convoy
+VOLUME /var/run/convoy
+VOLUME ${DOCKER_VOLUMES}
+
+COPY ./convoy-start.sh /convoy-start.sh
+ENTRYPOINT ["/convoy-start.sh"]
